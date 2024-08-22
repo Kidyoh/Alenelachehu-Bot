@@ -3,10 +3,11 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Mess
 
 from config import TOKEN
 from database import setup_database
-from handlers import start, main_menu_handler, how_to_use, start_venting, venting, handle_vent_options
+from handlers import sos_location, start, main_menu_handler, how_to_use, start_venting, venting, handle_vent_options
 from handlers import my_profile, edit_profile, handle_profile_input, rules, help_menu
 from handlers import handle_professional_support, handle_support_group
 from handlers import process_professional_support, process_support_group
+from handlers import sos, sos_voice, sos_photo
 from states import *
 
 # Enable logging
@@ -25,10 +26,10 @@ def main():
 
     # Setup conversation handlers
     conv_handler = ConversationHandler(
-        entry_points=[CallbackQueryHandler(main_menu_handler, pattern='^(how_to_use|start_venting|my_profile|rules|help|about)$')],
+        entry_points=[CallbackQueryHandler(main_menu_handler, pattern='^(how_to_use|start_venting|my_profile|rules|help|about|sos)$')],
         states={
             MAIN_MENU: [
-                CallbackQueryHandler(main_menu_handler, pattern='^(how_to_use|start_venting|my_profile|rules|help|about)$'),
+                CallbackQueryHandler(main_menu_handler, pattern='^(how_to_use|start_venting|my_profile|rules|help|about|sos)$'),
             ],
             HOW_TO_USE: [
                 CallbackQueryHandler(main_menu_handler, pattern='main_menu'),
@@ -67,6 +68,18 @@ def main():
             ],
             ABOUT: [
                 CallbackQueryHandler(main_menu_handler, pattern='main_menu')
+            ],
+            SOS: [
+            CallbackQueryHandler(sos, pattern='^sos$'),
+            ],
+            SOS_LOCATION: [
+                MessageHandler(filters.LOCATION, sos_location),
+            ],
+            SOS_VOICE: [
+                MessageHandler(filters.VOICE, sos_voice),
+            ],
+            SOS_PHOTO: [
+                MessageHandler(filters.PHOTO, sos_photo),
             ],
         },
         fallbacks=[CommandHandler('start', start)],

@@ -4,13 +4,15 @@ from datetime import datetime
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, ConversationHandler, filters
 
+from trial.handlers import sos
+
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # Define conversation states
 (MAIN_MENU, HOW_TO_USE, START_VENTING, VENTING, VENT_OPTIONS, MY_PROFILE, EDIT_PROFILE,
- RULES, HELP, ABOUT, PROFESSIONAL_SUPPORT, SUPPORT_GROUP) = range(12)
+ RULES, HELP, ABOUT, PROFESSIONAL_SUPPORT, SUPPORT_GROUP, SOS) = range(13)
 
 # Database setup
 def setup_database():
@@ -66,6 +68,8 @@ async def show_main_menu(update: Update, context):
         [InlineKeyboardButton("Rules and Regulation", callback_data='rules')],
         [InlineKeyboardButton("Help", callback_data='help')],
         [InlineKeyboardButton("About Alenelachehu", callback_data='about')]
+        [InlineKeyboardButton("Sos", callback_data='sos')]
+
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.effective_message.reply_text('Welcome to Alenelachehu venting platform. Please choose an option:', reply_markup=reply_markup)
@@ -92,6 +96,8 @@ async def main_menu_handler(update: Update, context):
         return HELP
     elif query.data == 'about':
         await about(update, context)
+    elif query.data == 'sos':
+        await sos(update, context)
         return ABOUT
     elif query.data == 'main_menu':
         await show_main_menu(update, context)
@@ -520,6 +526,9 @@ if __name__ == '__main__':
             ABOUT: [
                 CallbackQueryHandler(main_menu_handler, pattern='main_menu')
             ],
+            SOS: [
+                CallbackQueryHandler(sos, pattern='sos')
+            ]
 
         },
         fallbacks=[CommandHandler('start', start)],
