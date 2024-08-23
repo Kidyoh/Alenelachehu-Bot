@@ -40,3 +40,28 @@ def save_vent(user_id, content, allow_reactions, allow_public_comments, allow_pr
               (user_id, content, timestamp, allow_reactions, allow_public_comments, allow_professional_comments))
     conn.commit()
     conn.close()
+
+def get_vents():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM vents")
+    vents = c.fetchall()
+    conn.close()
+    return vents
+
+
+def save_sos(user_id, location, voice, picture):
+    conn = get_db_connection()
+    c = conn.cursor()
+    timestamp = datetime.now().isoformat()
+    c.execute("INSERT INTO soses (user_id, location, voice, picture, timestamp) VALUES (?, ?, ?, ?, ?)",
+              (user_id, location, voice, picture, timestamp))
+    conn.commit()
+    conn.close()
+
+def get_sos():
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute("SELECT * FROM soses")
+    soses = c.fetchall()
+    conn.close()

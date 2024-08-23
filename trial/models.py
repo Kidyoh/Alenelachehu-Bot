@@ -18,3 +18,20 @@ class Vent:
     allow_reactions: bool
     allow_public_comments: bool
     allow_professional_comments: bool
+
+@dataclass
+class Reaction:
+    id: int
+    vent_id: int
+    user_id: int
+    reaction: str
+    timestamp: datetime
+
+@dataclass
+class Sos:
+    id: int
+    user_id: int
+    location: str
+    voice: str
+    picture: str
+    timestamp: datetime
