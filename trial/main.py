@@ -3,12 +3,15 @@ from telegram.ext import Application, CommandHandler, CallbackQueryHandler, Mess
 
 from config import TOKEN
 from database import setup_database
-from handlers import sos_location, start, main_menu_handler, how_to_use, start_venting, venting, handle_vent_options
-from handlers import my_profile, edit_profile, handle_profile_input, rules, help_menu
-from handlers import handle_professional_support, handle_support_group
-from handlers import process_professional_support, process_support_group
-from handlers import sos, sos_voice, sos_photo
+from Components.main_menu import *
+from Components.venting_components import *
+from Components.profile import *
+from Components.information_components import *
+from Components.sos import *
+from Components.help_components import *
+from Components.support_components import *
 from states import *
+from handlers import start
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)

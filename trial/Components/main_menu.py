@@ -5,17 +5,18 @@ from telegram.ext import ContextTypes, CallbackContext
 
 from database import get_user_profile, save_sos, update_user_profile, save_vent
 from states import *
-from trial.Components.help_components import how_to_use
+from Components.help_components import how_to_use
 from utils import create_menu_keyboard
-from trial.Components.venting_components import start_venting
-from trial.Components.profile import my_profile
-from trial.Components.information_components import rules
-from trial.Components.information_components import help_menu
-from trial.Components.information_components import about
-from trial.Components.sos import sos
+
+from Components.profile import my_profile
+from Components.information_components import rules
+from Components.information_components import help_menu
+from Components.information_components import about
+from Components.sos import sos
 
 
 async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
     buttons = [
         ("How to use the bot", 'how_to_use'),
         ("Start Venting", 'start_venting'),
@@ -29,6 +30,7 @@ async def show_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.effective_message.reply_text('Welcome to Alenelachehu venting platform. Please choose an option:', reply_markup=keyboard)
 
 async def main_menu_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    from Components.venting_components import start_venting
     query = update.callback_query
     await query.answer()
 

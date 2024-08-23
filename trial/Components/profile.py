@@ -3,7 +3,6 @@ from telegram.ext import ContextTypes
 
 from database import get_user_profile, update_user_profile
 from states import *
-from trial.Components.main_menu import show_main_menu
 from utils import create_menu_keyboard
 
 
@@ -32,6 +31,7 @@ async def edit_profile(update: Update, context: ContextTypes.DEFAULT_TYPE):
     return EDIT_PROFILE
 
 async def handle_profile_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    from Components.main_menu import show_main_menu
     user_id = context.user_data['user_id']
     text = update.message.text
     

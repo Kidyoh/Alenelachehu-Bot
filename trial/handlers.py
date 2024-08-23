@@ -5,7 +5,7 @@ from telegram.ext import ContextTypes, CallbackContext
 
 from database import get_user_profile, save_sos, update_user_profile, save_vent
 from states import *
-from trial.Components.main_menu import show_main_menu
+from Components.main_menu import show_main_menu
 from utils import create_menu_keyboard
 
 

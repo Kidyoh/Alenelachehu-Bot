@@ -3,12 +3,13 @@ from telegram.ext import ContextTypes, CallbackContext
 
 from database import save_vent
 from states import *
-from trial.Components.main_menu import show_main_menu
+
 from utils import create_menu_keyboard
 
 
 
 async def start_venting(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
     await update.callback_query.edit_message_text('Please start typing your thoughts. When you\'re done, send /done')
     return VENTING
 
@@ -32,6 +33,7 @@ async def vent_options(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.effective_message.reply_text('Choose options for your vent:', reply_markup=keyboard)
 
 async def handle_vent_options(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    from Components.main_menu import show_main_menu
     query = update.callback_query
     await query.answer()
 
